@@ -2,14 +2,10 @@ from django.db import models
 
 class Category(models.Model):
     name = models.CharField(max_length=100,
-                            verbose_name="",
-                            help_text="",
+                            verbose_name="Название категории",
+                            help_text="Напишите здесь название категории",
                             unique=True,
-                            editable=False,
-                            null=False,
-                            blank=False,
-                            error_messages={'blank': 'Это поле не может быть пустым',
-                                            'unique': 'Задача с таким названием уже существует'})
+                            editable=True)
     def __str__(self):
         return self.name
 

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from homeworks.chudoprilozhenie.models import *
+from .models import *
 
 
 admin.site.register(Task)
