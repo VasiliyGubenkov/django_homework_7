@@ -33,11 +33,10 @@ class Task(models.Model):
                                    editable=True)
     categories = models.ManyToManyField(Category,
                                         related_name='tasks',
-                                        help_text='Категории, к которым относится задача',
-                                        blank=True,
-                                        null=True)
+                                        help_text='Категории, к которым относится задача')
     spisok_statusov = [('New', 'Новая'), ('In Progress', 'В процессе'), ('Pending', 'В ожидании'), ('Blocked', 'Заблокирована'), ('Done', 'Выполнена')]
-    status = models.CharField(choices=spisok_statusov,
+    status = models.CharField(max_length=100,
+                              choices=spisok_statusov,
                               verbose_name="Статус задачи",
                               help_text="Выберите статус задачи",
                               default='New')
@@ -73,12 +72,10 @@ class SubTask(models.Model):
                                    editable=True)
     task = models.ForeignKey(Task,
                              on_delete=models.CASCADE,
-                             related_name='subtasks',
-                             blank=False,
-                             null=False
-                             )
+                             related_name='subtasks')
     spisok_statusov = [('New', 'Новая'), ('In Progress', 'В процессе'), ('Pending', 'В ожидании'), ('Blocked', 'Заблокирована'), ('Done', 'Выполнена')]
-    status = models.CharField(choices=spisok_statusov,
+    status = models.CharField(max_length=100,
+                              choices=spisok_statusov,
                               verbose_name="Статус задачи",
                               help_text="Выберите статус задачи",
                               default='New')
