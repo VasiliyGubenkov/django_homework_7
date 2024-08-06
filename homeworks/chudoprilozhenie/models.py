@@ -6,6 +6,11 @@ class Category(models.Model):
                             help_text="Напишите здесь название категории",
                             unique=True,
                             editable=True)
+    class Meta:
+        db_table = 'task_manager_category'
+        verbose_name = "Категория"
+        verbose_name_plural = "Категории"
+        unique_together = ( "name",)
     def __str__(self):
         return self.name
 
@@ -48,6 +53,13 @@ class Task(models.Model):
                             verbose_name='Дата задачи',
                             help_text='Дата, к которой относится задача',
                             editable=False)
+    class Meta:
+        db_table = 'task_manager_task'
+        ordering = ['-created_at']
+        verbose_name = 'Задача'
+        verbose_name_plural = 'Задачи'
+        unique_together = ('title',)
+
     def __str__(self):
         return self.title
 
@@ -83,4 +95,13 @@ class SubTask(models.Model):
                                       verbose_name="Дата и время создания подзадачи",
                                       help_text="Это дата и время, когда подзадача была создана",
                                       editable=False)
+    class Meta:
+        db_table = 'task_manager_subtask'
+        ordering = ['-created_at']
+        verbose_name = "Подзадача"
+        verbose_name_plural = "Подзадачи"
+        unique_together = ('title',)
+
+    def __str__(self):
+        return self.title
 
