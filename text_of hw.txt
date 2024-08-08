@@ -1,0 +1,61 @@
+(.venv) vasiliigubenkov@MacBook-Air-Vasilii homeworks % python manage.py shell
+Python 3.12.3 (v3.12.3:f6650f9ad7, Apr  9 2024, 08:18:47) [Clang 13.0.0 (clang-1300.0.29.30)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from datetime import datetime, timedelta
+>>> from chudoprilozhenie.models import *
+>>> task = Task.objects.create(
+...     title="Prepare presentation",
+...     description="Prepare materials and slides for the presentation",
+...     status="New",
+...     deadline=datetime.now() + timedelta(days=3)
+... )
+/Users/vasiliigubenkov/Рабочая папка/Весь код/ДЗ_веб/ДЗ_джанго/homework_django/.venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1659: RuntimeWarning: DateTimeField Task.deadline received a naive datetime (2024-08-11 10:20:59.120800) while time zone support is active.
+  warnings.warn(
+>>> subtask1 = SubTask.objects.create(
+...     title="Gather information",
+...     description="Find necessary information for the presentation",
+...     status="New",
+...     deadline=datetime.now() + timedelta(days=2),
+...     task=task
+... )
+/Users/vasiliigubenkov/Рабочая папка/Весь код/ДЗ_веб/ДЗ_джанго/homework_django/.venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1659: RuntimeWarning: DateTimeField SubTask.deadline received a naive datetime (2024-08-10 10:21:16.626443) while time zone support is active.
+  warnings.warn(
+>>> subtask2 = SubTask.objects.create(
+...     title="Create slides",
+...     description="Create presentation slides",
+...     status="New",
+...     deadline=datetime.now() + timedelta(days=1),
+...     task=task
+... )
+/Users/vasiliigubenkov/Рабочая папка/Весь код/ДЗ_веб/ДЗ_джанго/homework_django/.venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1659: RuntimeWarning: DateTimeField SubTask.deadline received a naive datetime (2024-08-09 10:21:28.078470) while time zone support is active.
+  warnings.warn(
+>>>
+>>> new_tasks = Task.objects.filter(status="New")
+>>> for task in new_tasks:
+...     print(task)
+...
+Prepare presentation
+Приготовить ужин
+Заняться собственным проектом
+Сделать домашнее задание
+>>> from django.utils import timezone
+>>> overdue_done_subtasks = SubTask.objects.filter(status="Done", deadline__lt=timezone.now())
+>>> for subtask in overdue_done_subtasks:
+...     print(subtask)
+...
+>>>
+>>> task = Task.objects.get(title="Prepare presentation")
+>>> task.status = "In Progress"
+>>> task.save()
+>>> subtask = SubTask.objects.get(title="Gather information")
+>>> subtask.deadline -= timedelta(days=2)
+>>> subtask.save()
+>>> subtask = SubTask.objects.get(title="Create slides")
+>>> subtask.description = "Create and format presentation slides"
+>>> subtask.save()
+>>> task = Task.objects.get(title="Prepare presentation")
+>>> task.delete()
+(3, {'chudoprilozhenie.SubTask': 2, 'chudoprilozhenie.Task': 1})
+>>>
+

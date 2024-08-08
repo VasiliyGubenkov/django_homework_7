@@ -34,7 +34,7 @@ class Task(models.Model):
                                    editable=True)
     categories = models.ManyToManyField(Category,
                                         related_name='tasks',
-                                        help_text='Категории, к которым относится задача')
+                                        help_text='Категории, к которым относится задача',)
     spisok_statusov = [('New', 'Новая'), ('In Progress', 'В процессе'), ('Pending', 'В ожидании'), ('Blocked', 'Заблокирована'), ('Done', 'Выполнена')]
     status = models.CharField(max_length=100,
                               choices=spisok_statusov,
@@ -80,7 +80,9 @@ class SubTask(models.Model):
                                    editable=True)
     task = models.ForeignKey(Task,
                              on_delete=models.CASCADE,
-                             related_name='subtasks')
+                             related_name='subtasks',
+                             null=True,
+                             blank=True,)
     spisok_statusov = [('New', 'Новая'), ('In Progress', 'В процессе'), ('Pending', 'В ожидании'), ('Blocked', 'Заблокирована'), ('Done', 'Выполнена')]
     status = models.CharField(max_length=100,
                               choices=spisok_statusov,
@@ -91,6 +93,8 @@ class SubTask(models.Model):
                                     help_text='Укажите здесь дату и время дедлайна, для этой подзадачи',
                                     null=True,
                                     blank=True)
+    #subtasks = SubTask.objects.create(title='Gather information', description='Find necessary information for the presentation', status='New', deadline='
+
     created_at = models.DateTimeField(auto_now_add=True,
                                       verbose_name="Дата и время создания подзадачи",
                                       help_text="Это дата и время, когда подзадача была создана",
